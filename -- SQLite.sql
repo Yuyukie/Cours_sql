@@ -146,7 +146,7 @@ VALUES
 ('Soupe','Soupe', 1),
 ('Salade de fruit', ('salade-de-fruit'),NULL);
 
-SELECT *
+SELECT title, title
 FROM recipes 
 LEFT JOIN categories 
 ON recipes.category_id = categories.id;
