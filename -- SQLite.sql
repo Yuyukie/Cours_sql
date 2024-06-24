@@ -98,7 +98,7 @@ EXPLAIN QUERY PLAN SELECT * FROM recipes WHERE slug = 'soupe de poisson'
 
 Empecher une valeur NULL
 CREATE TABLE recipes(
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     title VARCHAR(150) NOT NULL,
     slug VARCHAR(50) NOT NULL UNIQUE,
     content TEXT,
@@ -107,4 +107,46 @@ CREATE TABLE recipes(
     create_at DATETIME
 );
 
+JOINTURES
+
+SELECT *
+FROM recipes 
+LEFT JOIN categories 
+ON recipes.category_id = categories.id;
 */
+
+PRAGMA foreign_keys = ON;
+
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS recipes;
+
+
+CREATE TABLE IF NOT EXISTS categories (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    description TEXT
+);
+
+
+INSERT INTO categories (title)
+VALUES ('Plat'),('Dessert');
+
+CREATE TABLE recipes(
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    slug VARCHAR(50) NOT NULL UNIQUE,
+    content TEXT,
+    category_id INTEGER,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+);
+
+INSERT INTO recipes (title, slug, category_id)
+VALUES
+('Creme anglaise', 'creme-anglaise', 2),
+('Soupe','Soupe', 1),
+('Salade de fruit', ('salade-de-fruit'),NULL);
+
+SELECT *
+FROM recipes 
+LEFT JOIN categories 
+ON recipes.category_id = categories.id;
